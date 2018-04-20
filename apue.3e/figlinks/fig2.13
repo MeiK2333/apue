@@ -1,0 +1,1 @@
+../standards/makeconf.awk

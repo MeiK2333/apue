@@ -1,0 +1,1 @@
+../lib/lockreg.c

@@ -1,0 +1,1 @@
+../stdio/getcputc.c

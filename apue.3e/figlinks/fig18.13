@@ -1,0 +1,1 @@
+../termios/isatty.c
