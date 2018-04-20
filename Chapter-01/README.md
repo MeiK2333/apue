@@ -110,7 +110,7 @@ pid: 90612
 % ^Cinterrupt
 ^C% interrupt
 [另开一个控制台]
-kill 90612
+$ kill 90612
 [刚刚的程序]
 % Terminated: 15
 ```
