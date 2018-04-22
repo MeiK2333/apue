@@ -60,7 +60,7 @@ sys     0m0.283s
 
 ---
 
-````C
+```C
 #define BUFFSIZE 64
 ```
 
