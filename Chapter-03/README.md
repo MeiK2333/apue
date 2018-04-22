@@ -44,7 +44,7 @@ $ ls -ls file.hole
 
 创建了一个大小为 516 581 760 字节的文件，实际测试代码
 
-````C
+```C
 #define BUFFSIZE 4096
 ```
 
