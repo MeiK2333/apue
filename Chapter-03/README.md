@@ -152,7 +152,8 @@ read write
 
 ### 习题
 
-#### 当读/写磁盘文件时，本章中描述的函数确实是不带缓冲机制的吗？请说明原因
+#### 3.1
+**当读/写磁盘文件时，本章中描述的函数确实是不带缓冲机制的吗？请说明原因**
 
 按书中的说法是带有缓冲机制的,
 
@@ -160,7 +161,8 @@ read write
 2. 通常write只是将数据排入队列，而实际的写磁盘操作则可能在以后的某个时刻进行。 而数据库系统则需要使用O_SYNC，这样一来当它从write返回时就知道数据已确实写到磁盘上， 以免在系统异常是产生数据丢失
 
 
-#### 编写一个与 3.12 节中 dup2 功能相同的函数，要求不调用 fcntl 函数，并且要有正确的出错处理
+#### 3.2
+**编写一个与 3.12 节中 dup2 功能相同的函数，要求不调用 fcntl 函数，并且要有正确的出错处理**
 
 [p2.c](p2.c)
 
@@ -195,7 +197,8 @@ Hello World!
 ```
 
 
-#### 假设一个进程执行下面 3 个函数调用：
+#### 3.3
+**假设一个进程执行下面 3 个函数调用：**
 
 ```C
 fd1 = open(path, oflags);
@@ -203,7 +206,7 @@ fd2 = dup(fd1);
 fd3 = open(path, oflags);
 ```
 
-画出类似于图 3-9 的结果图。对 fcntl 作用于 fd1 来说， F_SETFD 命令会影响哪一个文件描述符？ F_SETFL 呢？
+**画出类似于图 3-9 的结果图。对 fcntl 作用于 fd1 来说， F_SETFD 命令会影响哪一个文件描述符？ F_SETFL 呢？**
 
 ![p3.jpg](p3.jpg)
 
@@ -213,7 +216,8 @@ fd3 = open(path, oflags);
 验证可以看 [p3.c](p3.c)
 
 
-#### 许多程序中都包含下面一段代码：
+#### 3.4
+**许多程序中都包含下面一段代码：**
 
 ```C
 dup2(fd, 0);
@@ -223,4 +227,68 @@ if (fd > 2)
     close(fd);
 ```
 
-为了说明 if 语句的必要性，假设 fd 是 1 ，画出每次调用 dup2 时 3 个描述符项及相应的文件表项的变化情况。然后再画出 fd 为 3 的情况。
+**为了说明 if 语句的必要性，假设 fd 是 1 ，画出每次调用 dup2 时 3 个描述符项及相应的文件表项的变化情况。然后再画出 fd 为 3 的情况。**
+
+若 fd 为 1 ，则调用 dup2 后，0、1、2 描述符都指向 1 所指向的文件表项，其中第二条 dup2 不会进行任何操作，会直接返回。此时共有三个 fd 标志，指向同一个文件表项
+
+若 fd 为 3 ，则调用 dup2 后，0、1、2 描述符都指向 3 所指向的文件表项。此时共有四个 fd 标志，同时指向 3 指向的文件表项
+
+
+#### 3.5
+**在 Bourne shell 、 Bourne-again shell 和 Korn shell 中， digit1 > digit2 表示要将描述符 digit1 重定向至描述符 digit2 的同一文件。请说明下面两条命令的区别。**
+
+```shell
+./a.out > outfile 2>&1
+./a.out 2>&1 > outfile
+```
+
+**在Unix中,2>&1类似于 dup2(fd1,fd2) 函数，2>&1是将标准错误输出重定向到标准输出。**
+
+[p5.c](p5.c)
+
+```shell
+$ gcc p5.c
+$ ./a.out
+Hello World!
+$ ./a.out > outfile 2>&1
+$ cat outfile
+Hello World!
+$ rm outfile
+$ ./a.out 2>&1 > outfile
+World!
+$ cat outfile
+Hello
+```
+
+可见，第一种写法会把 stdout 和 stderr 同时重定向到文件中，而第二种方式会把 stderr 重定向到标准输出，然后把标准输出重定向到文件。
+
+如果用 dup2 函数来表示的话，两个写法对应的代码分别是：
+
+- 第一种
+```C
+dup2(STDOUT_FILENO, fileno);  //  STDOUT_FILENO 此时等于对应文件的描述符
+dup2(STDERR_FILENO, STDOUT_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ，也就是等于对应文件的描述符，因此此时 stdout 和 stderr 都会被输出到文件
+```
+- 第二种
+```C
+dup2(STDERR_FILENO, STDOUT_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ， stderr 会被输出到标准输出
+dup2(STDOUT_FILENO, fileno);  // STDOUT_FILENO 等于 fileno ， stdout 会被输出到文件
+```
+
+
+#### 3.6
+**如果使用追加标志打开一个文件以便读、写，能否仍用 lseek 在任一位置开始读？能否用 lseek 更新文件中任一部分的数据？请编写一段程序验证**
+
+编写 [p6.c](p6.c) ，创建空文件 test.txt ，查看运行结果：
+
+```shell
+$ gcc p6.c
+$ ./a.out
+World!
+Hello
+$ cat test.txt
+World!
+Hello
+```
+
+由此可见， lseek 可以在任一位置读，但由追加标志打开的文件只能在尾端写入。
