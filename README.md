@@ -5,3 +5,4 @@
 * [Chapter 1: UNIX 基础知识](Chapter-01/)
 * [Chapter 2: UNIX 标准及实现](Chapter-02/)
 * [Chapter 3: 文件 I/O](Chapter-03/)
+* [Chapter 4: 文件和目录](Chapter-04/)
