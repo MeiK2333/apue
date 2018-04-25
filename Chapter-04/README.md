@@ -95,3 +95,22 @@ $ ls -l foo bar
 - 是超级用户。
 
 目录 /tmp 和 /var/tmp 是典型的粘着位候选者。
+
+
+#### 4.15.c
+
+首先创建一个 tempfile 文件。
+
+```shell
+$ ls -l template
+-rw-r--r--  1 meik  staff  31000 Apr 25 21:30 tempfile
+$ df /home
+Filesystem    512-blocks Used Available Capacity iused ifree %iused  Mounted on
+map auto_home          0    0         0   100%       0     0  100%   /home
+$ ./a.out &
+[1] 20238
+file unlinked
+done
+```
+
+意思到了就行……
