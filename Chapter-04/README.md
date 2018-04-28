@@ -114,3 +114,75 @@ done
 ```
 
 意思到了就行……
+
+
+#### 4.20.c
+
+```shell
+# ls -l 4.3.c 4.7.c
+-rw-r--r-- 1 root root 912 Apr 23 13:47 4.3.c
+-rw-r--r-- 1 root root 449 Apr 24 12:47 4.7.c
+# ls -lu 4.3.c 4.7.c
+-rw-r--r-- 1 root root 912 Apr 23 14:28 4.3.c
+-rw-r--r-- 1 root root 449 Apr 24 13:30 4.7.c
+# date
+Sat Apr 28 13:48:41 UTC 2018
+# ./a.out 4.3.c 4.7.c
+# ls -lu 4.3.c 4.7.c
+-rw-r--r-- 1 root root 0 Apr 23 14:28 4.3.c
+-rw-r--r-- 1 root root 0 Apr 24 13:30 4.7.c
+# ls -l 4.3.c 4.7.c
+-rw-r--r-- 1 root root 0 Apr 23 13:47 4.3.c
+-rw-r--r-- 1 root root 0 Apr 24 12:47 4.7.c
+# ls -lc 4.3.c 4.7.c
+-rw-r--r-- 1 root root 0 Apr 28 13:48 4.3.c
+-rw-r--r-- 1 root root 0 Apr 28 13:48 4.7.c
+# ls -l 4.3.c 4.7.c
+-rw-r--r-- 1 root root 0 Apr 23 13:47 4.3.c
+-rw-r--r-- 1 root root 0 Apr 24 12:47 4.7.c
+```
+
+比较坑的地方是，在 MacOS 下这个程序是编译不过的，我开了个 docker 来编译运行它……
+
+
+#### 4.22.c
+
+```shell
+$ gcc 4.22.c -lapue
+$ ./a.out .
+regular files  =       9, 90.00 %
+directories    =       1, 10.00 %
+block special  =       0,  0.00 %
+char special   =       0,  0.00 %
+FIFOs          =       0,  0.00 %
+symbolic links =       0,  0.00 %
+sockets        =       0,  0.00 %
+$ ./a.out ..
+regular files  =    1039, 67.08 %
+directories    =     303, 19.56 %
+block special  =       0,  0.00 %
+char special   =       0,  0.00 %
+FIFOs          =       0,  0.00 %
+symbolic links =     207, 13.36 %
+sockets        =       0,  0.00 %
+```
+
+
+#### 4.23.c
+
+```shell
+$ gcc 4.23.c -lapue
+$ ./a.out
+chdir to /tmp succeeded
+```
+
+
+#### 4.23.2.c
+
+```shell
+$ gcc 4.23.2.c -lapue
+$ ./a.out
+cwd = /private/tmp
+```
+
+在 ubuntu 镜像里面也没找到 `/usr/spool/uucppublic` ……
