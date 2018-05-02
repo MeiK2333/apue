@@ -186,3 +186,88 @@ cwd = /private/tmp
 ```
 
 在 ubuntu 镜像里面也没找到 `/usr/spool/uucppublic` ……
+
+
+#### 4.24.c
+
+```shell
+$ gcc 4.24.c -lapue
+$ ./a.out / /home/meik /dev/tty[01]
+/: dev = 0/2055
+/home/meik: dev = 0/2055
+/dev/tty0: dev = 0/6 (character) rdev = 0/1024
+/dev/tty1: dev = 0/6 (character) rdev = 0/1025
+```
+
+编译时提示没有找到 major 和 minor 的定义，我在网上找到了一段代码以解决这个问题。
+
+```C
+#define MINORBITS        20
+#define MINORMASK        ((1U << MINORBITS) - 1)
+#define MAJOR(dev)        ((unsigned int) ((dev) >> MINORBITS))
+#define MINOR(dev)        ((unsigned int) ((dev) & MINORMASK))
+#define MKDEV(ma,mi)      (((ma) << MINORBITS) | (mi))
+```
+
+
+### 习题
+
+#### 4.1
+**用 stat 函数替换图 4-3 程序中的 lstat 函数，如若命令行参数之一是符号链接，会发生什么变化？**
+
+apue P74: lstat 函数类似于 stat ，但是当命名的文件是一个符号链接时， lstat 返回该符号链接的有关信息，而不是由该符号链接引用的文件的信息。也就是说，如果用 stat 替换 lstat 的话，将无法获取到符号链接的信息，而只能获取到符号链接对应的文件的信息。
+
+
+#### 4.2
+**如果文件模式创建屏蔽字是 777 （八进制），结果会怎样？用 shell 的 umask 命令验证该结果**
+
+```shell
+$ umask
+0022
+$ umask -S
+u=rwx,g=rx,o=rx
+$ umask 777
+$ umask -S
+u=,g=,o=
+$ echo 'Hello World!' > hello
+$ ls -l hello
+---------- 1 meik meik 13 5月   2 11:22 hello
+$ cat hello
+cat: hello: 权限不够
+```
+会导致新建的文件没有任何权限
+
+
+#### 4.3
+**关闭一个你所拥有文件的用户读权限，将导致拒绝你访问自己的文件，对此进行验证。**
+
+```shell
+$ echo 'Hello World!' > hello
+$ ls -l hello 
+-rw-r--r-- 1 meik meik 13 5月   2 11:28 hello
+$ chmod 244 hello 
+$ cat hello 
+cat: hello: 权限不够
+$ ls -l hello 
+--w-r--r-- 1 meik meik 13 5月   2 11:28 hello
+```
+
+
+#### 4.4
+**创建文件 foo 和 bar 后，运行图 4-9 的程序，将发生什么情况？**
+
+```shell
+$ gcc 4.8.c -lapue
+$ echo 'Hello World' > foo
+$ echo 'Hello World' > bar
+$ ./a.out 
+$ ls -l foo bar
+-rw-r--r-- 1 meik meik 0 5月   2 11:32 bar
+-rw-r--r-- 1 meik meik 0 5月   2 11:32 foo
+```
+
+文件被重置为新的，但是权限位却没有变化。
+
+
+#### 4.5
+**4.12 节中讲到一个普通文件的大小可以为 0，同时我们又知道 st_size 字段是为目录或符号链接定义的，那么目录和符号链接的长度是否可以为 0 ？**
