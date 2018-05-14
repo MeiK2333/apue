@@ -7,3 +7,4 @@
 * [Chapter 3: 文件 I/O](Chapter-03/)
 * [Chapter 4: 文件和目录](Chapter-04/)
 * [Chapter 5: 标准 I/O 库](Chapter-05/)
+* [Chapter 6: 系统数据文件和信息](Chapter-06/)
