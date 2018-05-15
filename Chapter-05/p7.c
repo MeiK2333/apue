@@ -21,6 +21,9 @@ struct memstream {
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
+#define off_t int
+#define fpos_t int
+
 static int mstream_read(void *, char *, int);
 static int mstream_write(void *, const char *, int);
 static fpos_t mstream_seek(void *, fpos_t, int);
