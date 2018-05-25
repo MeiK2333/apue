@@ -155,3 +155,34 @@ hello world ./8.12.sh
 ```
 
 我写了另一个文件来验证解释器文件。
+
+
+#### 8.16.c
+```shell
+$ sudo docker run -it --rm -v /home/meik/apue:/apue --cpuset-cpus="1" ubuntu
+
+(docker)$ ./a.out 20
+NZERO = 20
+current nice value in parent is 20
+current nice value in child is 20, adjusting by 20
+now child nice value is 39
+parent count = 530972868
+child count = 7997025
+
+(docker)$ ./a.out   
+NZERO = 20
+current nice value in parent is 20
+current nice value in child is 20, adjusting by 0
+now child nice value is 20
+parent count = 269416766
+child count = 268210473
+
+(docker)$ ./a.out 20
+NZERO = 20
+current nice value in parent is 20
+current nice value in child is 20, adjusting by 20
+now child nice value is 39
+parent count = 530972868
+child count = 7997025
+```
+在多核的机器上，因为两个进程无需共享 CPU ，因此其实看不出来差距。我启动了一个只有一个 CPU 核心的 docker ，成功的体现出差异。
