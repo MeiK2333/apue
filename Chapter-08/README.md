@@ -62,3 +62,96 @@ $ second child, parent pid = 1
 ```
 
 得到了预想的结果。
+
+
+#### 8.9.c
+```shell
+$ gcc 8.9.c -lapue
+$ ./a.out 
+output from poaurtepnutt
+ from child
+$ ./a.out 
+output from paroeunttp
+ut from child
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from parenotu
+tput from child
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from pareonutt
+put from child
+```
+
+
+#### 8.9.2.c
+```shell
+$ gcc 8.9.2.c -lapue
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from parent
+output from child
+$ ./a.out 
+output from parent
+output from child
+```
+
+
+#### 8.9.3.c
+```shell
+$ gcc 8.9.3.c -lapue
+$ ./a.out 
+output from child
+output from parent
+$ ./a.out 
+output from child
+output from parent
+$ ./a.out 
+output from child
+output from parent
+```
+
+通过种方式，能确保父进程和子进程之间的先后关系。
+
+
+#### 8.10.c
+```shell
+$ gcc 8.10.c -lapue
+$ ./a.out 
+argv[0]: echoall
+argv[1]: myarg1
+argv[2]: MY ARG2
+USER=unknown
+PATH=/tmp
+$ argv[0]: echoall
+argv[1]: only 1 arg
+(中间省略若干行)
+OLDPWD=/home/meik/apue
+_=./a.out
+```
+
+我对书上的代码进行了部分改动，使其能够正常运行。
+
+shell 提示符在第二个 exec 打印 argv[0] 之前，因为父进程不等待子进程结束。
+
+
+#### 8.12.sh
+```shell
+$ chmod 754 8.12.sh
+$ ./8.12.sh
+hello world ./8.12.sh
+```
+
+我写了另一个文件来验证解释器文件。

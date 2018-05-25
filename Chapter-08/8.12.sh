@@ -1,0 +1,1 @@
+#!/bin/echo hello world
