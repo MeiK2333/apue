@@ -54,3 +54,25 @@ sleep2 returned: 0
 ```
 
 数值计算在完成之前就结束了。
+
+### 10.13.c
+
+```shell
+$ gcc 10.13.c -lapue
+$ ./a.out
+^\
+SIGQUIT pending
+caught SIGQUIT
+SIGQUIT unblocked
+$ ./a.out
+^\
+SIGQUIT pending
+caught SIGQUIT
+SIGQUIT unblocked
+^\退出 (核心已转储)
+$ ./a.out
+^\^\^\
+SIGQUIT pending
+caught SIGQUIT
+SIGQUIT unblocked
+```
