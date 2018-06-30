@@ -14,3 +14,4 @@
 * [Chapter 9: 进程关系](Chapter-09/)
 * [Chapter 10: 信号](Chapter-10/)
 * [Chapter 11: 线程](Chapter-11/)
+* [Chapter 12: 线程控制](Chapter-12/)
