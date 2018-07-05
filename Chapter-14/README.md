@@ -43,16 +43,16 @@ $ ll in.txt
 $ gcc 14.5.3.c -lapue
 $ time ./a.out in.txt out.txt
 
-real	0m0.128s
-user	0m0.032s
-sys	0m0.004s
+real 0m0.128s
+user 0m0.032s
+sys  0m0.004s
 
 $ gcc 14.5.3.2.c -lapue -lrt
 $ time ./a.out in.txt out.txt
 
-real	0m0.126s
-user	0m0.036s
-sys	0m0.016s
+real 0m0.126s
+user 0m0.036s
+sys  0m0.016s
 ```
 
 尝试了 26000 / 260000 / 2600000 数据量, 两个程序均没有明显差距
