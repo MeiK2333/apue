@@ -20,3 +20,18 @@ queue id 65536, message just a test
 $ ./sendmsg 0x125 "bye"
 queue id 65538, message bye
 ```
+
+### 17-5
+
+```shell
+$ gcc 17-5.c -lapue
+$ ./a.out
+UNIX domain socket bound
+$ ls -l foo.socket
+srwxr-xr-x  1 meik  staff  0  7 19 14:26 foo.socket
+$ ./a.out
+bind failed: Address already in use
+$ rm foo.socket
+$ ./a.out
+UNIX domain socket bound
+```
