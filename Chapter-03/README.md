@@ -248,7 +248,19 @@ $ cat outfile
 Hello
 ```
 
-可见，第一种写法会把 stdout 和 stderr 同时重定向到文件中，而第二种方式会把 stderr 重定向到标准输出，然后把标准输出重定向到文件。
+可见，第一种写法会先把 stdout 重定向到文件中，然后再把 stderr 重定向于 stdout 所指向的文件
+而第二种方式会把 stderr 重定向到标准输出，然后把标准输出重定向到文件。
+
+我们再做一些观察
+```
+$ ./a.out
+Hello World!
+$ ./a.out > outfile
+World!
+$ cat outfile
+Hello
+```
+可以知道缺省的stderr和stdout都指向shell,然后第一个`>`一般是指对stdout的重定向
 
 如果用 dup2 函数来表示的话，两个写法对应的代码分别是：
 
@@ -265,6 +277,22 @@ dup2(STDOUT_FILENO, STDERR_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ，�
 dup2(STDERR_FILENO, STDOUT_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ， stderr 会被输出到标准输出
 dup2(STDOUT_FILENO, fileno);  // STDOUT_FILENO 等于 fileno ， stdout 会被输出到文件
 ```
+
+#### 复习一下dup2
+
+借鉴自：https://blog.csdn.net/bian_qing_quan11/article/details/73304911
+原型：int dup2(int oldfd, int newfd);
+
+参数：oldfd是一个文件描述符
+
+            newfd一个文件描述符
+
+返回值：
+
+功能：将newfd指向oldfd所指的文件，相当于重定向功能。如果newfd已经指向一个已经打开的文件，那么他会首先关闭这个文件，然后在使newfd指向oldfd文件；
+
+            如果newfd和oldfd指向同一个文件，那么不会关闭，直接返回。
+
 
 ### 3.6
 
