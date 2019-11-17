@@ -255,8 +255,8 @@ Hello
 - 第一种
 
 ```C
-dup2(STDOUT_FILENO, fileno);  //  STDOUT_FILENO 此时等于对应文件的描述符
-dup2(STDERR_FILENO, STDOUT_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ，也就是等于对应文件的描述符，因此此时 stdout 和 stderr 都会被输出到文件
+dup2(fileno, STDOUT_FILENO);  //  STDOUT_FILENO 此时等于对应文件的描述符
+dup2(STDOUT_FILENO, STDERR_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ，也就是等于对应文件的描述符，因此此时 stdout 和 stderr 都会被输出到文件
 ```
 
 - 第二种
