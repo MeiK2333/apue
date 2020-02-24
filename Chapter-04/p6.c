@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
             }
         }
         if (l != cnt) {  // 将没有复制过去的所有都复制过去
-            if (write(fd2, buff + l, cnt - l)) {
+            if (write(fd2, buff + l, cnt - l) == -1) {
                 printf("fd2 write failure\n");
                 exit(1);
             }
