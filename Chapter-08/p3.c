@@ -3,8 +3,14 @@
 #include "apue.h"
 
 void pr_exit_2(siginfo_t *infop) {
-  printf("signo: %d\n", infop->si_signo);
-  printf("code: %d\n", infop->si_code);
+      if (siginfo->si_code == CLD_EXITED) {
+        printf("normal termination, exit status = %d\n", siginfo->si_status);
+    } else if (siginfo->si_code==CLD_KILLED || siginfo->si_code==CLD_DUMPED) {
+        printf("abnormal termination, signal number = %d%s\n", siginfo->si_status,
+            siginfo->si_code == CLD_DUMPED ? "(core file generated)" : "");
+    } else if (siginfo->si_code == CLD_STOPPED) {
+        printf("child stopped, signal number = %d\n", siginfo->si_status);
+    }
 }
 
 int main() {
