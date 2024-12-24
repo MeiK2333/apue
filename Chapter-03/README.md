@@ -274,8 +274,8 @@ dup2(STDOUT_FILENO, STDERR_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ，�
 - 第二种
 
 ```C
-dup2(STDERR_FILENO, STDOUT_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ， stderr 会被输出到标准输出
-dup2(STDOUT_FILENO, fileno);  // STDOUT_FILENO 等于 fileno ， stdout 会被输出到文件
+dup2(STDOUT_FILENO, STDERR_FILENO);  // STDERR_FILENO 等于 STDOUT_FILENO ， stderr 会被输出到标准输出
+dup2(fileno, STDOUT_FILENO);  // STDOUT_FILENO 等于 fileno ， stdout 会被输出到文件
 ```
 
 #### 复习一下dup2
